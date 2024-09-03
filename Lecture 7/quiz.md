@@ -52,6 +52,7 @@ int main() {
     for (int n : vec) std::cout << n << " ";
     return 0;
 }
+```
 
 - [ ] a). 3 1 4 1 5 9
 - [ ] b). 1 1 3 4 5 9
@@ -126,8 +127,7 @@ Section 2: Functors and Lambdas
 
 15. What is the output of the following code snippet?
 
-cpp
-
+```cpp
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -139,6 +139,7 @@ int main() {
     for (int n : vec) std::cout << n << " ";
     return 0;
 }
+```
 
 - [ ] a). 1 2 3 4
 - [ ] b). 2 4 6 8
@@ -164,9 +165,9 @@ int main() {
 
 18. What does the following lambda expression return when called?
 
-cpp
-
+```cpp
 []()->int { return 10; }();
+```
 
 - [ ] a). void
 - [ ] b). nullptr
@@ -370,8 +371,7 @@ Section 4: Additional Topics
 
 43. What is the output of the following code snippet?
 
-cpp
-
+```cpp
 #include <iostream>
 #include <vector>
 #include <thread>
@@ -393,6 +393,7 @@ int main() {
     t2.join();
     return 0;
 }
+```
 
 - [ ] a). 1 2 3 4 5 1 2 3 4 5
 - [ ] b). 1 2 3 4 5
@@ -431,3 +432,230 @@ int main() {
 - [ ] c). It pauses the thread execution
 - [ ] d). It detaches the thread from the main program
     Correct Answer: A) It waits for the thread to finish execution
+
+
+
+
+# Advanced Programming in C++ - Quiz: STL Algorithms, Function Objects, and Lambdas
+
+## Instructions
+- Answer the following questions to the best of your ability.
+- Each section is focused on a specific aspect of STL algorithms, function objects, and lambdas.
+- Select the correct answer for each question.
+- Correct answers are provided at the end of the quiz.
+
+---
+
+## Section 1: STL Algorithms
+
+### 1. Which of the following is used to sort a container in ascending order?
+
+- A) `std::sort(container.begin(), container.end());`
+- B) `std::find(container.begin(), container.end());`
+- C) `std::count(container.begin(), container.end());`
+- D) `std::accumulate(container.begin(), container.end());`
+
+### 2. What does the `std::find` algorithm return if the element is not found?
+
+- A) `container.end()`
+- B) `container.begin()`
+- C) `nullptr`
+- D) `-1`
+
+### 3. Which STL algorithm is used to reverse the elements in a container?
+
+- A) `std::rotate`
+- B) `std::transform`
+- C) `std::reverse`
+- D) `std::swap`
+
+### 4. How do you count the number of occurrences of a specific value in a container?
+
+- A) `std::find`
+- B) `std::accumulate`
+- C) `std::count`
+- D) `std::for_each`
+
+### 5. Which algorithm is used to apply a function to each element in a range?
+
+- A) `std::transform`
+- B) `std::for_each`
+- C) `std::generate`
+- D) `std::fill`
+
+---
+
+## Section 2: Function Objects (Functors)
+
+### 6. What is a function object in C++?
+
+- A) A function that returns an object.
+- B) An object that can be called as if it were a function.
+- C) A function that operates on objects.
+- D) An object that stores a pointer to a function.
+
+### 7. Which of the following correctly defines a simple function object?
+
+```cpp
+class Add {
+public:
+    int operator()(int a, int b) {
+        return a + b;
+    }
+};
+```
+
+- [ ] a). A function object that adds two integers.
+- [ ] b). A function that returns an integer.
+- [ ] c). A class that stores two integers.
+- [ ] d). An object that can only be used with std::transform.
+
+8. How is a function object typically used with STL algorithms?
+
+- [ ] a). Passed as an argument to the algorithm.
+- [ ] b). Used to define a custom comparator.
+- [ ] c). Both A and B.
+- [ ] d). It cannot be used with STL algorithms.
+
+9. Which of the following is a key advantage of using function objects over regular functions?
+
+- [ ] a). They cannot be inlined.
+- [ ] b). They can maintain state.
+- [ ] c). They are always faster.
+- [ ] d). They are more readable.
+
+10. What will be the result of applying the following function object?
+
+```cpp
+struct Multiply {
+    int operator()(int a, int b) {
+        return a * b;
+    }
+};
+```
+
+std::vector<int> vec = {1, 2, 3, 4};
+std::transform(vec.begin(), vec.end(), vec.begin(), Multiply());
+
+- [ ] a). vec will contain {1, 2, 3, 4}
+- [ ] b). vec will contain {2, 4, 6, 8}
+- [ ] c). vec will contain {1, 4, 9, 16}
+- [ ] d). vec will contain {2, 8, 18, 32}
+
+Section 3: Lambdas
+11. What is a lambda expression in C++?
+
+- [ ] a). A shorthand way of defining a class.
+- [ ] b). An inline function that can be defined inside an expression.
+- [ ] c). A preprocessor directive.
+- [ ] d). A macro that generates functions.
+
+12. Which of the following correctly defines a simple lambda that adds two numbers?
+
+- [ ] a). [](int a, int b) { return a + b; }
+- [ ] b). [](int a, int b) -> a + b
+- [ ] c). lambda(int a, int b) { return a + b; }
+- [ ] d). lambda[] (int a, int b) { return a + b; }
+
+13. What does the following lambda do?
+
+```cpp
+auto lambda = [](int x) { return x * x; };
+std::vector<int> vec = {1, 2, 3, 4};
+std::transform(vec.begin(), vec.end(), vec.begin(), lambda);
+```
+
+- [ ] a). Squares each element in vec.
+- [ ] b). Multiplies each element in vec by 2.
+- [ ] c). Leaves vec unchanged.
+- [ ] d). Causes a compilation error.
+
+14. How can you capture external variables in a lambda?
+
+- [ ] a). Using the capture list [].
+- [ ] b). Using the capture list [&].
+- [ ] c). Using the capture list [=].
+- [ ] d). Both B and C.
+
+15. What is the output of the following code?
+
+```cpp
+int x = 10;
+auto lambda = [x](int y) { return x + y; };
+cout << lambda(5);
+```
+
+- [ ] a). 5
+- [ ] b). 10
+- [ ] c). 15
+- [ ] d). 20
+
+16. How do you define a lambda that returns the square of its input and specify the return type explicitly?
+
+- [ ] a). [](int x) -> int { return x * x; }
+- [ ] b). [](int x) { return x * x; }
+- [ ] c). lambda[](int x) -> int { return x * x; }
+- [ ] d). lambda[](int x) { return x * x; }
+
+17. What is the advantage of using lambdas with STL algorithms?
+
+- [ ] a). They allow inline definition of custom operations.
+- [ ] b). They are faster than function objects.
+- [ ] c). They can only be used with std::for_each.
+- [ ] d). They cannot capture external variables.
+
+Section 4: Combining STL Algorithms, Functors, and Lambdas
+18. Which of the following correctly uses a lambda to remove all even numbers from a vector?
+
+```cpp
+std::vector<int> vec = {1, 2, 3, 4, 5, 6};
+auto it = std::remove_if(vec.begin(), vec.end(), [](int x) { return x % 2 == 0; });
+vec.erase(it, vec.end());
+```
+
+- [ ] a). Removes all even numbers from vec.
+- [ ] b). Removes all odd numbers from vec.
+- [ ] c). Leaves vec unchanged.
+- [ ] d). Causes a compilation error.
+
+19. How can you use a function object to sort a vector in descending order?
+
+- [ ] a). Pass the function object as a comparator to std::sort.
+- [ ] b). Use std::greater<int>() as a comparator.
+- [ ] c). Both A and B.
+- [ ] d). It is not possible to sort in descending order with function objects.
+
+20. What is the result of applying the following code?
+
+```cpp
+std::vector<int> vec = {1, 2, 3, 4, 5};
+std::for_each(vec.begin(), vec.end(), [](int &x) { x *= 2; });
+```
+
+- [ ] a). vec will contain {1, 2, 3, 4, 5}
+- [ ] b). vec will contain {2, 4, 6, 8, 10}
+- [ ] c). vec will contain {1, 4, 9, 16, 25}
+- [ ] d). vec will contain {1, 3, 5, 7, 9}
+
+Answers
+
+- [ ] a). std::sort(container.begin(), container.end());
+- [ ] a). container.end()
+- [ ] c). std::reverse
+- [ ] c). std::count
+- [ ] b). std::for_each
+- [ ] b). An object that can be called as if it were a function.
+- [ ] a). A function object that adds two integers.
+- [ ] c). Both A and B.
+- [ ] b). They can maintain state.
+- [ ] a). vec will contain {1, 2, 3, 4}
+- [ ] b). An inline function that can be defined inside an expression.
+- [ ] a). [](int a, int b) { return a + b; }
+- [ ] a). Squares each element in vec.
+- [ ] d). Both B and C.
+- [ ] c). 15
+- [ ] a). [](int x) -> int { return x * x; }
+- [ ] a). They allow inline definition of custom operations.
+- [ ] a). Removes all even numbers from vec.
+- [ ] c). Both A and B.
+- [ ] b). vec will contain {2, 4, 6, 8, 10}

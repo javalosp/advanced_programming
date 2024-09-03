@@ -47,6 +47,7 @@ int main() {
     t.detach();
     return 0;
 }
+```
 
 - [ ] a). Hello from thread!
 - [ ] b). Undefined behavior
@@ -89,8 +90,7 @@ Section 2: Mutexes and Synchronization
 
 10. What will be the output of the following code snippet if no mutex is used?
 
-cpp
-
+```cpp
 #include <iostream>
 #include <thread>
 
@@ -112,6 +112,7 @@ int main() {
     std::cout << "Final counter value: " << counter << std::endl;
     return 0;
 }
+```
 
 - [ ] a). 200000
 - [ ] b). 100000
@@ -187,9 +188,9 @@ Section 4: Parallel Algorithms in C++17
 
 19. Which of the following is a valid use of parallel execution in C++17?
 
-cpp
-
+```cpp
 std::for_each(std::execution::par, vec.begin(), vec.end(), [](int &n) { n *= 2; });
+```
 
 - [ ] a). True
 - [ ] b). False
