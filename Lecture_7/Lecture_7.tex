@@ -1,0 +1,448 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{minted}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{cprotect}
+\usepackage{physics}
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2cm, right = 2cm]{geometry}
+
+\title{Advanced Programming}
+\author{Standard Template Library (STL)}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+The C++ Standard Template Library (STL) is a powerful library that provides a set of common data structures and algorithms. This supplementary material focuses on the algorithms provided by STL, as well as the concepts of functors, lambdas, and allocators.
+
+\section{Algorithms}
+
+STL algorithms are generic functions that operate on sequences of elements. These sequences are usually provided by containers (e.g., `vector`, `list`, `set`), and the algorithms perform tasks such as searching, sorting, modifying, and more.
+
+STL algorithms are divided into several categories:
+\begin{itemize}
+    \item \textbf{Non-modifying Sequence Operations}: Operations that do not change the elements of the container.
+    \item \textbf{Modifying Sequence Operations}: Operations that alter the elements of the container.
+    \item \textbf{Sorting and Searching}: Operations for ordering elements and searching for specific elements.
+    \item \textbf{Numeric Operations}: Operations that perform numerical computations on sequences.
+\end{itemize}
+
+\subsection{Non-modifying Sequence Operations}
+
+\subsubsection{find}
+The \mintinline{c++}|find| algorithm searches for a specific value in a range and returns an iterator to the first occurrence of the value.
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    auto it = std::find(vec.begin(), vec.end(), 3);
+    if (it != vec.end()) {
+        std::cout << "Found: " << *it << std::endl;
+    } else {
+        std::cout << "Not found" << std::endl;
+    }
+    return 0;
+}
+\end{minted}
+
+The \mintinline{c++}|find| algorithm makes use of value--based criteria. Alternatively, for boolean criteria we can use \mintinline{c++}|find_if| or \mintinline{c++}|find_if_not|.
+The \mintinline{c++}|find_if| algorithm finds the first element that matches a predicate that returns \mintinline{c++}|true|, whilst \mintinline{c++}|find_if_not| finds the first element that matches a predicate* that returns \mintinline{c++}|false|. 
+
+*A predicate is a function or a function object that returns a \mintinline{c++}|bool|.
+Unary predicates take one argument. These predicates are particularly useful testing conditions.
+
+Let's see an example
+
+\begin{minted}{c++}
+#include <vector>
+#include <algorithm>
+#include <iostream>
+
+// Let's define a couple of predicates
+bool isOdd(int i) {
+    return i % 2 != 0;  // returns true if i is odd
+}
+bool isEven(int i) {
+    return i % 2 == 0;  // returns true if i is even
+}
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    
+    // We have two options for finding the first odd value
+    // 1. using find_if and isOdd
+    auto it = std::find_if(vec.begin(), vec.end(), isOdd);
+    if (it != vec.end()) {
+        std::cout << "Found first odd value (using find_if): " << *it << std::endl;
+    }
+    // 2. using find_if_not and isEven
+    auto it2 = std::find_if_not(vec.begin(), vec.end(), isEven);
+    if (it2 != vec.end()) {
+        std::cout << "Found first odd value (using find_if_not): " << *it2 << std::endl;
+    }
+    
+    // Likewise, for finding the first even value
+    // 1. using find_if and isEven
+    auto it3 = std::find_if(vec.begin(), vec.end(), isEven);
+    if (it != vec.end()) {
+        std::cout << "Found first even value (using find_if): " << *it3 << std::endl;
+    }
+    // 2. using find_if_not and isOdd
+    auto it4 = std::find_if_not(vec.begin(), vec.end(), isOdd);
+    if (it4 != vec.end()) {
+        std::cout << "Found first even value (using find_if_not): " << *it4 << std::endl;
+    }    
+    return 0;
+}
+\end{minted}
+
+\subsubsection{count}
+The \mintinline{c++}|count| algorithm counts the number of occurrences of a specific value in a range.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 3, 5};
+    // let's count the occurrences of 3 in vec
+    int count = std::count(vec.begin(), vec.end(), 3);
+    std::cout << "Count of 3s: " << count << std::endl;
+    return 0;
+}
+\end{minted}
+
+\subsubsection{for\_each}
+The \mintinline{c++}|for_each| algorithm applies a function to each element in a range.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// define a function
+int increment(int &n) {
+    return ++n;
+}
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    // apply the function to each element in vec
+    std::for_each(vec.begin(), vec.end(), increment);
+    for (int i : vec){
+        std::cout << i << std::endl;
+    }
+    return 0;
+}
+\end{minted}
+
+\subsection{Modifying Sequence Operations}
+
+\subsubsection{copy}
+The \mintinline{c++}|copy| algorithm copies elements from one range to another
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> vec1 = {1, 2, 3, 4, 5};
+    std::vector<int> vec2(5);
+    // Let's see vec2 before copy
+    std::cout << "vec2 before copy" << std::endl;
+    for (int i : vec2) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+    // copy
+    std::copy(vec1.begin(), vec1.end(), vec2.begin());
+    // after copy
+    std::cout << "vec2 after copy" << std::endl;
+    for (int i : vec2) {
+        std::cout << i << " ";
+    }
+    return 0;
+}
+\end{minted}
+
+In this example the target container \mintinline{c++}|vec2| is created with the same size of the source container \mintinline{c++}|vec| (in this case 5). Try yourself changing the size of the target container and check the output.
+
+\subsubsection{transform}
+The \mintinline{c++}|transform| algorithm applies a function to a range of elements and stores the result in another range. 
+
+Recall the example for the \mintinline{c++}|for_each| algorithm. By applying the function \mintinline{c++}|triple| to each element in \mintinline{c++}|vec| the values were modified inplace. If want to preserve the original values in \mintinline{c++}|vec|, we would need to create a new container \mintinline{c++}|vec2|, as shown in the example for the \mintinline{c++}|copy| algorithm and use \mintinline{c++}|for_each| on this copy:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// define a function
+int increment(int &n) {
+    return ++n;
+}
+
+int main() {
+    std::vector<int> vec1 = {1, 2, 3, 4, 5};
+    std::vector<int> vec2(5);
+    // copy values
+    std::copy(vec1.begin(), vec1.end(), vec2.begin());
+    // apply the function to each element in vec2
+    std::for_each(vec2.begin(), vec2.end(), increment);
+    for (int i : vec2) {
+        std::cout << i << std::endl;
+    }
+    return 0;
+}
+\end{minted}
+
+The \mintinline{c++}|transform| algorithm reduces the procedure to one line
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// define a function
+int increment(int n) {
+    return ++n;
+}
+
+int main() {
+    std::vector<int> vec1 = {1, 2, 3, 4, 5};
+    std::vector<int> vec2(5);
+    // using transform
+    std::transform(vec1.begin(), vec1.end(), vec2.begin(), increment);
+    for (int i : vec2) {
+        std::cout << i << std::endl;
+    }
+    return 0;
+}
+\end{minted}
+
+\subsection{Sorting and Searching}
+
+\subsubsection{sort}
+
+The \mintinline{c++}|sort| algorithm sorts the elements in a range according to a specific criterion. This algorithm uses ascending order by default, but custom comparison functions can be used to change the sorting order.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// create a comparison function for sorting in descending order
+bool descend(int a, int b){
+	return a > b;
+}
+
+int main() {
+    std::vector<int> vec = {4, 2, 3, 1, 5};
+    // sort in ascending order (default)
+    std::sort(vec.begin(), vec.end());
+    for (int i : vec) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+    
+    // sort in descending order 
+    // using our comparison function descend as sorting criterion
+    std::sort(vec.begin(), vec.end(), descend);
+    for (int i : vec) {
+        std::cout << i << " ";
+    }
+    return 0;
+}
+\end{minted}
+
+\subsubsection{binary\_search}
+
+The \mintinline{c++}|binary_search| algorithm checks whether a value exists in a sorted range. It returns a boolean indicating the presence of the value.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    bool found = std::binary_search(vec.begin(), vec.end(), 3);
+    if (found) {
+        std::cout << "Element found" << std::endl;
+    } else {
+        std::cout << "Element not found" << std::endl;
+    }
+    return 0;
+}
+\end{minted}
+
+Recall the example for the \mintinline{c++}|find| algorithm. Can you see similarities/differences?
+
+\subsection{Numeric Operations}
+
+\subsubsection{accumulate}
+
+The \mintinline{c++}|accumulate| algorithm computes a cumulative operation of a range of elements. The default operation is sum, but custom cumulative operations can be used.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <numeric>
+#include <vector>
+#include <string>
+
+// Define a custom operation for joining elements as a string
+auto join = [](std::string a, int b){
+    return std::move(a) + '-' + std::to_string(b);
+};
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    
+    // default operation: Sum
+    // Note the argument 0. This is the initial value for the operation
+    int sum = std::accumulate(vec.begin(), vec.end(), 0);
+    std::cout << "Sum: " << sum << std::endl;
+    
+    // using an operation from std namespace 
+    // std::multiplies<int>(): integer multiplication
+    // Note the argument 0. This is the initial value for the operation
+    int prod = std::accumulate(vec.begin(), vec.end(), 1, std::multiplies<int>());
+    std::cout << "Product: " << prod << std::endl;
+    
+    // using custom operation join
+    // Note the range bounds and the initial value
+    std::string s = std::accumulate(std::next(vec.begin()), vec.end(),
+                                    std::to_string(vec[0]), 
+                                    join);
+    std::cout << "String: " << s << std::endl;
+    return 0;
+}
+\end{minted}
+
+Note the definition of the custom operation. The syntax used corresponds to a \textit{lambda expression}. Lambda expressions are explained below.
+
+\subsubsection{partial\_sum}
+
+The \mintinline{c++}|partial_sum| algorithm computes the partial sums of a range of elements and stores them in another range.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <numeric>
+#include <vector>
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    std::vector<int> result(vec.size());
+    std::partial_sum(vec.begin(), vec.end(), result.begin());
+    int c = 1;
+    for (int i : result) {
+    	std::cout << "Sum of " << c << " first elements of vec: ";
+        std::cout << i << std::endl;
+        ++c;
+    }
+    return 0;
+}
+\end{minted}
+
+\section{Function Objects (Functors) and Lambdas}
+
+\subsection{Function Objects (Functors)}
+A functor is an object that can be called as if it were a function. Functors are useful in situations where you want to pass a function as an argument to an algorithm but need to maintain state.
+
+\subsubsection{Example of a Functor}
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// create the function object Multiply
+struct Multiply {
+    int factor;
+    Multiply(int f) : factor(f) {}
+    void operator()(int &n) const {
+        n *= factor;
+    }
+};
+
+int main() {
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    // use the function object as argument in an algorithm
+    std::for_each(vec.begin(), vec.end(), Multiply(2));
+    for (int i : vec) {
+        std::cout << i << " ";
+    }
+    return 0;
+}
+\end{minted}
+
+\subsection{Lambda Expressions in C++}
+Lambda expressions are a convenient way to define anonymous functions in C++. They are especially useful in STL algorithms where simple function objects are needed.
+
+\subsubsection{Example of a Lambda Expression}
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// Define a lambda expression
+auto triple = [](int &n) { 
+    return n *= 3;
+};
+
+int main() {
+	std::vector<int> vec = {1, 2, 3, 4, 5};
+    // pass the lambda expression to an algorithm
+    std::for_each(vec.begin(), vec.end(), triple);
+    for (int i : vec) {
+        std::cout << i << " ";
+    }
+	std::cout << std::endl;
+    // This can be simplified by passing the operation
+    // following the lambda expression syntax
+    std::for_each(vec.begin(), vec.end(), [](int &n) { n *= 2; });
+    for (int i : vec) {
+        std::cout << i << " ";
+    }
+    
+    return 0;
+}
+\end{minted}
+
+You may have noticed the square brackets (\verb|[]|). In the previous example brackets remain empty. However, these brackets are for capturing variables from the enclosing local scope of a lambda expression. This allows lambdas to use local variables in their bodies.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    // define the variable factor in the enclosing scope of the lambda expression
+    int factor = 2;
+    std::vector<int> vec = {1, 2, 3, 4, 5};
+    // capture the variable and use it in the body of the lambda expression
+    std::for_each(vec.begin(), vec.end(), [factor](int &n) { n *= factor; });
+    for (int i : vec) {
+        std::cout << i << " ";
+    }
+    return 0;
+}
+\end{minted}
+
+\section{References}
+\begin{itemize}
+    \item Nicolai M. Josuttis, \textit{The C++ Standard Library: A Tutorial and Reference}.
+    \item Bjarne Stroustrup, \textit{The C++ Programming Language}.
+    \item \url{https://en.cppreference.com/w/}
+\end{itemize}
+
+\end{document}

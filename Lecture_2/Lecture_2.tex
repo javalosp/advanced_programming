@@ -1,0 +1,557 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{minted}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{cprotect}
+\usepackage{physics}
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2cm, right = 2cm]{geometry}
+
+\title{Advanced Programming}
+\author{C++ Basic Structure, Declarations \& Definitions}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+This document serves as supplementary material for lecture 2 on advanced programming. It is designed to provide students with a foundational understanding of the key concepts for this lecture, such as expressions, operators, statements, iteration, functions, control flow, data types, declarations and definitions, and scope and namespaces.
+
+\section{Expressions and Operators}
+\subsection{Expressions}
+
+In C++, an expression is a combination of variables, operators, and values that yield a result. Expressions can be as simple as a single value or as complex as a function call.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int length = 10; // simple expression
+int width = 20;
+int perimeter = 2*(length + width); // some operations
+int area = calc_area(length, width); // function call (more on functions later)
+\end{minted}
+
+\subsection{Operators}
+
+Operators are symbols that specify the type of operation to be performed on operands. C++ supports various operators, including arithmetic, relational, logical, and concise operators.
+
+\subsubsection*{Arithmetic Operators}
+\textbf{Valid operand types:} Numeric (\verb!int, short, long, float, double!)
+
+\begin{table}[!htb]
+\centering
+\begin{tabular}{@{}cc@{}}
+\toprule
+\textbf{Operator} & \textbf{Operation} \\
+\noalign{\hrule height 1pt}
++                 & Addition           \\
+-                 & Subtraction        \\
+*                 & Multiplication     \\
+/                 & Division           \\
+\%                & Remainder          \\
+\noalign{\hrule height 1pt}
+\end{tabular}
+\caption{Arithmetic Operators}
+\label{table:arithmetic_operators}
+\end{table}
+
+\textbf{Important:} The remainder operator (\%) requires integer type literals!. Using the wrong types results in \textbf{compilation errors}, e.g:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+double x = 50.0;
+int y = 6;
+int remainder = x % y;
+\end{minted}
+
+yields: 
+\begin{verbatim}
+    error: invalid operands of types ‘double’ and ‘int’ to binary ‘operator%’
+\end{verbatim}
+
+\subsubsection*{Relational Operators}
+\textbf{Valid operand types:} Numeric (\verb!int, short, long, float, double!)
+
+\begin{table}[!htb]
+\centering
+\begin{tabular}{@{}cc@{}}
+\toprule
+\textbf{Operator} & \textbf{Operation}            \\
+\noalign{\hrule height 1pt}
+==                & Equal                         \\
+!=                & Not equal                     \\
+<                 & Less than                     \\
+>                 & Greater than                  \\
+<=                & Less than or equal to         \\
+>=                & Greater than or equal to      \\
+\noalign{\hrule height 1pt}
+\end{tabular}
+\caption{Relational Operators}
+\label{table:relational_operators}
+\end{table}
+
+
+\subsubsection*{Logical Operators}
+\textbf{Valid operand types:} Boolean (\verb!true, false!)
+\begin{table}[!htb]
+\centering
+\begin{tabular}{@{}cc@{}}
+\toprule
+\textbf{Operator} & \textbf{Operation} \\
+\noalign{\hrule height 1pt}
+\&\&               & And                \\
+||                & Or                 \\
+!                 & Not                \\
+\noalign{\hrule height 1pt}
+\end{tabular}
+\caption{Logical Operators}
+\label{table:logical_operators}
+\end{table}
+
+Both Relational Operators and Logical Operators return \verb!true! (1) or \verb!false! (0)
+
+\subsubsection*{Concise Operators}
+Special case of operator for simplifying binary arithmetic operations.
+
+\begin{equation*}
+    \verb!a = a + b! \rightarrow \verb!a += b!
+\end{equation*}
+
+These operators are particularly useful for increments in loops (you will see more about loops below).
+
+\begin{equation*}
+    \verb!a = a + 1! \rightarrow \verb!a += 1! \rightarrow \verb!++a!
+\end{equation*}
+
+\section{Statements}
+A statement in C++ is the smallest standalone element of a program that expresses an action to be carried out. Statements can be expressions followed by a semicolon, declarations, or control statements.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int x = 5; // declaration statement
+y = 10; // expression statement
+if (x <= y) x = 20; // control statement
+\end{minted}
+
+\subsection{Control Statements}
+Control statements determine the flow of control in a program. Common control statements include Selection Statements (if - else), and Iteration Statements (while and for).
+
+\subsubsection*{Selection (if - else)}
+The if - else statement allows branching based on conditions.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+if (a < b)
+    cout << "a is less than b" << endl;
+else
+    cout << "a is greater than b" << endl;  
+\end{minted}
+
+\subsection{Iteration}
+Iteration statements allow repeating a block of code multiple times. The two primary iteration constructs in C++ are while loops and for loops. 
+
+\subsubsection*{While Loop}
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int i = 0; // control variable
+while (i < 10) { //termination criterion
+    cout << "Current iteration: " << i << endl;
+    ++i; // increment
+}
+\end{minted}
+
+While loops only require a boolean termination criterion. However, you must ensure that the termination criterion will be met at some point:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+bool continue = true; 
+int i = 0; 
+while (continue) { // termination criterion
+    cout << "Current iteration: " << i << endl;
+    ++i; // increment
+}
+\end{minted}
+
+This results in an infinite loop, since the termination criterion remains unchanged. A fix for this could be:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+bool continue = true; 
+int i = 0; 
+while (continue_loop) { // termination criterion
+    cout << "Current iteration: " << i << endl;
+    if (i>10){
+      continue_loop = false; // update expression
+    }
+    ++i; // increment
+}
+\end{minted}
+
+This fix might look a bit complex, however, it can be useful when your termination criterion depends on multiple operations or inputs/outputs
+
+\subsubsection*{For Loop}
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+for (int i = 0; i < 10; ++i) {
+    cout << "Current iteration: " << i << endl;
+}
+\end{minted}
+This loop is equivalent to the while loops previously shown, however, the for loop syntax wraps all the conditions for the iteration in one place.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+for (int i = 0; i < 10; ++i) 
+\end{minted}
+
+For loops can also be range--based:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+for (int i : {0, 1, 2, 3, 4, 5}) // the initialiser is a list (using braces)
+    cout << "Current iteration: " << i << endl;
+\end{minted}
+
+For loops provide simplicity and readability, particularly when iteration conditions are known.
+
+\section{Functions}
+
+Functions in C++ allow code modularity and reusability. A function is defined to perform a specific task and can be called multiple times within a program.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int add_int(int a, int b) {
+    return a + b;
+}
+\end{minted}
+
+The general structure of a function is:
+
+\begin{verbatim}
+return_type  function_name(parameters) {
+    // body of the function
+    return return_value;
+}
+\end{verbatim}
+
+Functions are defined with a return type, a name, a parameter list, and a return value. However, some times you want to use a function to do something, but you don't require a return value (e.g. writing an output file or printing something on the screen). For those cases, you can use the return type \verb|void|
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+void exit_msg() {
+    cout << "Good bye!" << endl;
+}
+\end{minted}
+
+
+\section{Control Flow}
+Control flow refers to the order in which individual statements, instructions, or function calls are executed or evaluated. Let's recall our previous example of a while loop in a fully functional implementation:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream> // include directive
+using namespace std; // adding a namespace to the global scope
+int main() {
+    // variable definition
+    bool continue_loop = true; 
+    int i = 0; 
+    // loop
+    while (continue_loop) { // termination criterion
+        cout << "Current iteration: " << i << endl;
+        // selection statement
+        if (i>10){
+          continue_loop = false; // update expression
+        }
+        ++i; // increment
+    }
+}
+\end{minted}
+
+\section{Data Types}
+C++ supports several data types, which can be broadly categorised into built-in types, derived types, and user-defined types.
+
+\subsubsection*{Built-in Types}
+
+\begin{table}[!htb]
+      \centering
+        \label{table:operators}
+        \begin{tabular}{c@{\hspace{0.5cm}}|c@{\hspace{0.5cm}}|c}
+            \toprule
+            Built-in Types & Derived Types & User--defined  \\
+            \noalign{\hrule height 1pt}
+            \verb!int! & function & class  \\
+            \verb!short! & array & structure  \\
+            \verb!long! & pointer & union  \\
+            \verb!float! & reference & enum  \\
+            \verb!double! &  & typedef  \\
+            \verb!bool! & &  \\
+            \verb!char! & &  \\
+            ... & & \\
+            
+        \end{tabular}
+\end{table}
+
+These data types have a specific size in memory. This size determines the range of values allowed for each type. Here's a code snippet you can use to check the size of built--in data types:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+using namespace std;
+int main() {
+    cout << "Size of int : " << sizeof(int) << " bytes."  << endl;
+    cout << "Size of float : " << sizeof(float) << " bytes."  << endl;
+    cout << "Size of double : " << sizeof(double) << " bytes."  << endl;
+    cout << "Size of bool : " << sizeof(bool) << " bytes."  << endl;
+    return 0; 
+}
+\end{minted}
+
+For some data types, you can change the size or the range of values allowed. This is achieved by using type modifiers: signed, unsigned, short, long.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+using namespace std;
+int main() {
+    cout << "Size of int : " << sizeof(int) << " bytes."  << endl;
+    cout << "Size of signed int : " << sizeof(signed int) << " bytes."  << endl;
+    cout << "Size of unsigned int : " << sizeof(unsigned int) << " bytes."  << endl;
+    cout << "Size of short int : " << sizeof(short int) << " bytes."  << endl;
+    cout << "Size of long int : " << sizeof(long int) << " bytes."  << endl;
+    return 0; 
+}
+\end{minted}
+
+Now let's see the changes in the allowed range of values (this is a bit more complex, but don't worry about that. We are just making use of specific libraries. You'll learn about that later)
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <climits>
+using namespace std;
+int main() {
+    cout << "Size of short int: " << sizeof(short int) << " bytes." << endl;
+    cout << "Signed short min value: " << SHRT_MIN << endl;
+    cout << "Signed short max value: " << SHRT_MAX << endl;
+    cout << "Unsigned short min value: 0" << endl;
+    cout << "Unsigned short max value: " << USHRT_MAX << endl;
+
+    cout << "Size of int type: " << sizeof(int) << " bytes." << endl;
+    cout << "Signed int min value: " << INT_MIN << endl;
+    cout << "Signed int max value: " << INT_MAX << endl;
+    cout << "Unsigned int min value: 0" << endl;
+    cout << "Unsigned int max value: " << UINT_MAX << endl;
+
+    cout << "Size of long int type: " << sizeof(long int) << " bytes." << endl;
+    cout << "Signed long min value: " << LONG_MIN << endl;
+    cout << "Signed long max value: " << LONG_MAX << endl;
+    cout << "Unsigned long min value: 0" << endl;
+    cout << "Unsigned long max value: " << ULONG_MAX << endl;
+    return 0;
+}
+\end{minted}
+
+
+\section{Declarations and Definitions}
+
+Declarations introduce names into a program and specify their types:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int a; // variable declaration
+int add_int(int, int); // function declaration (without function body)
+\end{minted}
+
+Definitions tell the program what the declared name contains and initialise objects.
+
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int a = 7; // variable definition
+int add_int(int a, int b) {
+    return a + b; // function declaration (with function body)
+}
+\end{minted}
+
+Let's see an example of declarations and definitions:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+using namespace std;
+
+int add_int(int, int); // function declaration
+
+int main()
+{
+    int a = 1; // variable declaration and definition
+    int b = 2; // variable declaration and definition
+    int c = add_int(a, b); // variable declaration and initialisation
+                           // with the value returned by function add_int.
+                           // The program doesn't know the value yet,
+                           // but it already knows the value will be of type int
+                           // because the function was already declared
+    cout << a << "+" << b << " = " << c << endl;  
+}
+
+int add_int(int a, int b) {
+    return a + b; // function definition
+}
+\end{minted}
+
+In this example, the function \verb|add_int| is declared at the beginning of the program and is defined at the end of the program. Declaring the function at the beginning allows for its usage for the definition of variable \verb|c|, regardless of not knowing what the function does. The relevant information for using this function for defining \verb|c| is the return type of the function. This is usually referred as \textit{abstraction} and provides flexibility for large programs through the use of header files.
+
+
+\section{Scope}
+Scope refers to the region of code where a name (variable, function, etc.) is visible. C++ supports several kinds of scopes: Global Scope, Local Scope, Class Scope, Namespace Scope.
+
+\begin{itemize}
+    \item Global Scope: Names declared outside any function or class.
+    \item Local Scope: Names declared within a function or a block.
+\end{itemize}
+
+Let's recall our function example with a little change:
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+using namespace std;
+
+int add_int(int, int); // function declaration
+
+int a = 1; // variable in the global scope
+int main()
+{
+    int b = 2; // variable in the scope of main
+    for (int i = 0; i < 10; ++i){
+        int c = i + add_int(a, b); // variable in the scope of the loop statement
+        cout << i << "+" << a << "+" << b << " = " << c << endl;
+    }
+}
+
+int add_int(int a, int b) {
+  return a + b; 
+}
+\end{minted}
+
+\begin{itemize}
+    \item Class Scope: Names declared within a class. Classes will be explained in future lectures.
+    \item Namespace Scope: Names declared within a namespace.
+\end{itemize}
+
+
+
+\section{Namespace}
+Namespaces prevent name conflicts by creating logical scopes. The typical structure of a namespace is:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+namespace MyNamespace {
+    int x; // variable in namespace
+    void myFunction() { // function in namespace
+        // ...
+    }
+}
+\end{minted}
+There are different ways to use names from a namespace:
+
+\begin{itemize}
+    \item Calling the namespace (hint: you may have noticed the line \verb|using namespace std| in the previous examples)
+\end{itemize}
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+using namespace MyNamespace;
+x = 10;
+myFunction();
+\end{minted}
+
+\begin{itemize}
+    \item Using fully qualified names
+\end{itemize}
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+MyNamespace::x = 10;
+MyNamespace::myFunction();
+\end{minted}
+
+Let's see an example:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+using namespace std;
+namespace string_vals {
+    string a; 
+    string b;  
+    string plus_operation(string a, string b) {
+        return a + b;
+    }
+}
+namespace int_vals {
+    int a; 
+    int b; 
+    int plus_operation(int a, int b) {
+        return a + b;
+    }
+}
+\end{minted}
+
+We have created two namespaces: \verb|string_vals|, \verb|intvals|. Both include variables with the same name (\verb|a|, \verb|b|) and a function with the same name (\verb|plus_operation|). Now let's use them.
+
+\subsubsection*{Option 1: \texttt{using namespace NamespaceName+}}
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+using namespace std;
+
+namespace string_vals {
+    string a; 
+    string b;  
+    string plus_operation(string a, string b) {
+        return a + b;
+    }
+}
+namespace int_vals {
+    int a; 
+    int b; 
+    int plus_operation(int a, int b) {
+        return a + b;
+    }
+}
+
+using namespace string_vals; // define the namespace you want to use
+
+int main()
+{
+    a = "A"; // variable definition should be consistent with the type in the namespace
+    b = "B";
+    cout << a << "+" << b << " = " << plus_operation(a, b) << endl;    
+}
+\end{minted}
+
+We have chosen to use only one of the namespaces (\verb|string_vals|). What if we use both?... Using both results in ambiguous references. This means that the program will be confused trying to find out which declaration of the variables and the function should be used. There is a way to avoid this issue...
+
+\subsubsection*{Option 2: Using fully qualified names}
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+using namespace std;
+
+namespace string_vals {
+    string a; 
+    string b;  
+    string plus_operation(string a, string b) {
+        return a + b;
+    }
+}
+namespace int_vals {
+    int a; 
+    int b; 
+    int plus_operation(int a, int b) {
+        return a + b;
+    }
+}
+
+int main()
+{
+    // using the string_vals namespace
+    string_vals::a = "A";
+    string_vals::b = "B";
+    cout << string_vals::a << "+" << string_vals::b << " = " <<
+    string_vals::plus_operation(string_vals::a, string_vals::b) << endl; 
+    // using the int_vals namespace
+    int_vals::a = 1;
+    int_vals::b = 2;
+    cout << int_vals::a << "+" << int_vals::b << " = " <<
+    int_vals::plus_operation(int_vals::a, int_vals::b) << endl; 
+}
+\end{minted}
+
+In this case you explicitly refer to the namespace (\verb|string_vals::|, \verb|int_vals::|). This ensures that there's no ambiguity with names, allowing for using both namespaces at the same time.
+
+\section*{References}
+
+\begin{itemize}
+    \item Stroustrup, B. (2013). The C++ Programming Language. Addison-Wesley.
+    \item Meyers, S. (2005). Effective C++. Addison-Wesley.
+    \item Josuttis, N. M. (2012). The C++ Standard Library: A Tutorial and Reference. Addison-Wesley.
+    \item Sutter, H., \& Alexandrescu, A. (2005). C++ Coding Standards: 101 Rules, Guidelines, and Best Practices. Addison-Wesley.
+    \item ISO/IEC. (2023). Programming Languages - C++ Standard (N4928). Retrieved from ISO C++.
+\end{itemize}
+
+\end{document}

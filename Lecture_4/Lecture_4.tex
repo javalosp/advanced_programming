@@ -1,0 +1,349 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{minted}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{cprotect}
+\usepackage{physics}
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2cm, right = 2cm]{geometry}
+
+\title{Advanced Programming}
+\author{Pointers}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+Pointers are a fundamental concept in C++ programming, essential for understanding memory management, dynamic data structures, and efficient computation. This lecture will delve into the intricacies of pointers, covering their declaration, usage, and the associated memory management strategies. This supplementary material will provide a comprehensive overview of pointers, preparing you for lecture 4.
+
+
+\section{Memory Management in C++}
+C++ provides several mechanisms for memory management, including automatic, dynamic, and static memory allocation. Before going through this, let's see a brief definition of the memory allocation areas.
+
+\subsection{Stack and Heap}
+Memory allocation can occur in two main areas: stack and heap. The stack is used for automatic memory allocation and operates following a Last-In-First-Out (LIFO) structure. It is managed by the program's runtime environment and is of fixed size. The heap, on the other hand, allows for dynamic memory allocation and deallocation. It is slower than the stack but provides flexibility in resizing variables. Memory fragmentation and memory leaks can occur in the heap if not managed properly.
+
+\subsection{Static Memory Allocation}
+Static memory is allocated at compile time and deallocated automatically when the program terminates. This memory is stored in RAM next to program data, not in the stack.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+static int x = 10; // x is statically allocated
+\end{minted}
+
+\subsection{Automatic Memory Allocation}
+Automatic memory allocation occurs when a variable is declared, and memory is allocated on the \textbf{stack}. Local variables are stored in the stack and are automatically deallocated when the function returns.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+void function() {
+    int x = 10; // x is allocated on the stack
+}
+\end{minted}
+
+\subsection{Dynamic Memory Allocation}
+Dynamic memory allocation happens during runtime using the \mintinline{c++}|new| operator and must be manually deallocated using the delete operator. This memory is stored in the \textbf{heap}.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int* p = new int; // dynamically allocate memory for an int
+*p = 5;
+delete p; // deallocate the memory
+\end{minted}
+
+You might have noticed the star (*) before the variable name in this example. That's a pointer declaration.
+In this case \mintinline{c++}|int *p| declares a pointer, whilst \mintinline{c++}|new int| allocates memory location for an integer. Therefore, pointers allow us to directly access and manipulate the value stored at a specific memory location.
+
+\section{Understanding Pointers}
+A pointer is a variable that stores a memory address. The key advantage of pointers is the ability for dynamic memory management. This allows for efficient array and data structure manipulation.
+
+\subsection{Pointer Declaration and Initialisation}
+Pointers are declared by placing a star (*) before the pointer name. Recalling the previous example:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int* P = new int;
+*P = 5;
+\end{minted}
+
+In this case, the pointer \verb|P| is initialised with an integer value. However, a pointer can also be initialised using the memory address of another variable. For this, we make use of the symbol \&:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int A = 10;
+int* P = &A; // P is a pointer to an int,
+             // initialised with the address of A
+\end{minted}
+
+This also works in the opposite way, i.e. the value stored in a memory address can be accessed using the star (*) symbol.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int A = 10; // sets variable A with the integer value 10
+int* P = &A; // sets pointer P with the memory address of variable A
+int B = *P + 1; // sets variable B with the integer value stored
+                // at memory address of P
+\end{minted}
+
+Try yourself the following example and check the output on the screen.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+using namespace std;
+int A = 10; // sets variable A with the integer value 10
+int* P = &A; // sets pointer P with the memory address of variable A
+int B = *P + 1; // sets variable B with the integer value stored
+                // at memory address of P
+int main() {
+    cout << "value stored in variable A: " << A << endl;
+    cout << "memory address of variable A: " << &A << endl;
+    cout << "value stored in pointer P (memory address): " << P << endl;
+    cout << "value stored in the memory address P (int): " << *P << endl;
+    cout << "value stored in variable B: " << B << endl;
+    cout << "memory address of variable B: " << &B << endl;
+    return 0;
+}
+\end{minted}
+
+You should have noticed that memory addresses look like a random string of characters. This is actually an hexadecimal number that identifies a memory location. Don't worry about how it looks, just think about it as the post address of a storage room and the pointer name is the key to open the room. Consequently, you can store and remove different things from that room.
+This means that pointers allows for allocating memory space for variables with a size not known yet, or variables with a size determined by future calculations in the code.
+
+\section{Types of Pointers}
+
+\subsection{Null Pointers}
+A null pointer is a pointer that does not point to any valid memory location. It is initialised with  \mintinline{c++}|nullptr|:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int *p = nullptr;
+\end{minted}
+
+\subsection{Void Pointers}
+A void pointer is a pointer that can point to any data type. It is declared using the void keyword.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+void *vp;
+int a = 5;
+vp = &a;  // vp now points to an integer
+\end{minted}
+
+\subsection{Constant Pointers}
+A constant pointer is a pointer that cannot change the address it is pointing to after initialisation.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int a = 10;
+int *const p = &a;
+\end{minted}
+
+\subsection{Pointer to Constant}
+A pointer to a constant is a pointer that cannot change the value of the variable it is pointing to.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+const int *p = &a;
+\end{minted}
+
+\section{Pointers and Arrays}
+Arrays and pointers are closely related. The name of an array variable is also a pointer to the memory location of the first item in the array. This allows us to manipulate arrays using pointer arithmetic. For example:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int arr[3] = {1, 2, 3};
+int* p = arr; // p points to arr[0]
+std::cout << p[1] << std::endl; // prints 2
+\end{minted}
+
+Pointers can be incremented and decremented using arithmetic operations, allowing traversal through arrays.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int arr[5] = {1, 2, 3, 4, 5};
+int* p = arr; // p points to the first element of arr
+for (int i = 0; i < 5; ++i) {
+    cout << p[i] << endl; // prints the elements of arr
+}
+\end{minted}
+
+Additionally, adding values to a pointer allows to move to a different position in the array
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int arr[5] = {1, 2, 3, 4, 5};
+int* p = arr; // p points to the first element of arr
+cout << *p << endl; // prints the first element of arr
+p += 1; // move one position in the array
+cout << *p << endl; // prints the second element of arr
+for (int i = 0; i < 5; ++i) {
+    cout << *(p + i) << endl; // prints the elements of arr
+}
+\end{minted}
+
+\section{Pointers to Pointers}
+A pointer to a pointer is a variable that stores the address of another pointer. This is useful for multidimensional arrays and dynamic memory allocation.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int a = 10;
+int* p1 = &a;
+int** p2 = &p1;
+std::cout << **p2 << std::endl; // prints 10
+\end{minted}
+
+This is useful for defining 2D arrays, given the relation between pointers and arrays.
+Consider a 2D array as an array of arrays: \verb|A = [a1, a2, a3]|, with \verb|a1=[1, 2, 3]|, \verb|a2=[4, 5, 6]|, \verb|a3=[7, 8, 9]|. Likewise, a 2D array can be defined using pointers:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int rows = 3;
+int cols = 3;
+int** A = new int*[rows];
+for(int i = 0; i < rows; ++i)
+    A[i] = new int[cols];
+\end{minted}
+
+At this point we have created an array of size \verb|rows|, with each element being an array of size \verb|cols|. Our array is not populated with values yet. This can be achieved in different ways:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+int val = 1; // variable for the values to be stored
+for (int i = 0; i<rows; ++i) { 
+	int *a = new int[cols]; // initialise a temporary array for each row
+	for (int j = 0; j<cols; ++j) {
+		a[j] = val; // store the values in the temporary arra
+        ++val; // update the value
+    }
+    A[i] = a; // store the temporary array in our 2D array
+    delete[] a; // deallocate memory
+}
+\end{minted}
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}    
+int val = 1; // variable for the values to be stored
+for (int i = 0; i<rows; ++i) { 
+	for (int j = 0; j<cols; ++j) {
+		A[i][j] = val; // store the value in the array
+        ++val;
+    }
+}
+\end{minted}
+
+You can try yourself and identify the advantages or disadvantages of different implementations.
+
+\section{Passing Pointers to Functions}
+
+Functions can accept pointers as parameters, allowing them to modify the value of the pointed-to variable.
+
+Functions in C++ can have pointers as parameters. By passing a pointer to a variable, the function can modify the value stored at that memory location. This is particularly useful for functions that need to return multiple values or work with arrays. For example:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+using namespace std;
+
+void traverse_arr(int* p, int l) {
+    for (int i = 0; i<l; ++i)
+    	cout << p[i] << endl;
+}
+
+int main() {
+    int a[5] = {1,2,3,4,5};
+    int len_a = sizeof(a)/sizeof(a[0]);
+    traverse_arr(a, len_a);
+    return 0;
+}
+\end{minted}
+
+Using a pointer allows passing an array as a parameter to \mintinline{c++}|traverse_arr(int* p, int l)|. Passing the array without using a pointer results in compilation errors.
+
+Additionally, you can return a pointer from a function:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+using namespace std;
+
+int* createArray(int size) { // return type of the function is an int pointer
+    int *arr = new int[size];  // dynamic memory allocation for the array
+    for (int i = 0; i < size; ++i) {
+        arr[i] = i * 2;  // assign values to array elements
+    }
+    return arr;
+}
+
+int main() {
+    int size = 5;
+    int *array = createArray(size);
+    for (int i = 0; i < size; ++i) {
+        cout << array[i] << " ";
+    }
+    delete[] array; // Free the allocated memory
+    return 0;
+}
+\end{minted}
+
+In this case \mintinline{c++}{int* createArray(int size)} declares a function that  takes an integer \verb|size| and returns a pointer to an array of integers. Inside the function, memory is dynamically allocated for the array (\mintinline{c++}{int *arr = new int[size]}) and its elements are initialised.
+Finally, in the main function, the returned pointer is assigned to \verb|array|.
+
+\section{Smart Pointers}
+Smart pointers in C++ provide automatic memory management by using reference counting or other mechanisms to ensure that objects are properly deleted when they are no longer needed.
+
+\cprotect\subsubsection{\verb+std::unique_ptr+}
+A \verb+std::unique_ptr+ is a pointer that owns a memory resource exclusively and cannot be copied or shared. When the \verb+std::unique_ptr+ goes out of scope, the memory resource is automatically deleted.
+
+Let's see an example using a pointer:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+void myFunction() {
+    int* p = new int(10);  // Allocate an integer with value 10
+    std::cout << *p << std::endl;
+    delete p; // remember to deallocate
+    }
+int main() {
+    myFunction();
+    return 0;
+}
+\end{minted}
+
+Now using a \verb+std::unique_ptr+ smart pointer:
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <iostream>
+#include <memory>  // header file required for smart pointers
+void myFunction() {
+    std::unique_ptr<int> p(new int(10));  // Allocate an integer with value 10
+    std::cout << *p << std::endl;
+    } // The pointer is automatically deallocated here
+int main() {
+    myFunction();
+    return 0;
+}
+\end{minted}
+
+
+\cprotect\subsubsection{\verb|std::shared_ptr|}
+
+A \verb|std::shared_ptr| is a smart pointer that allows to manage the memory resource by different instances, while maintaining reference counting. This allows to use pointed object in different scopes since the memory keeps allocated until the last \verb|std::shared_ptr| pointing to an object is destroyed.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <memory>
+std::shared_ptr<int> p(new int(20));
+std::shared_ptr<int> q = p;  // Both p and q now own the memory resource
+\end{minted}
+
+\cprotect\subsubsection{\verb+std::weak_ptr+}
+A \verb|std::weak_ptr| is a smart pointer that does not own the memory resource but can access it if it exists. It is used to keep track of \verb|std::shared_ptr| instances, allowing for preventing the use of regions of memory managed by a pointer that was already deleted.
+
+\begin{minted}[linenos, breaklines, fontsize=\small]{cpp}
+#include <memory>
+std::shared_ptr<int> p(new int(30));
+std::weak_ptr<int> wp = p;  // wp does not own the memory resource
+\end{minted}
+
+
+\section{Common Pitfalls and Best Practices}
+\begin{itemize}
+    \item Memory Leaks: Always deallocate memory using delete or delete[] to avoid memory leaks. The use of smart pointers prevents this issue.
+    \item Avoid Dangling Pointers: Ensure that pointers are not used after the memory they point to has been deallocated.
+    \item Pointer Arithmetic Errors: Incorrect pointer arithmetic can lead to accessing invalid memory locations.
+    \item Double Deletion: Deleting the same memory twice can lead to undefined behavior.
+\end{itemize}
+
+
+\section*{References}
+\begin{itemize}
+    \item Stroustrup, B. (2013). The C++ Programming Language. Addison-Wesley.
+    \item Meyers, S. (2005). Effective C++: 55 Specific Ways to Improve Your Programs and Designs. Addison-Wesley.
+    \item Sutter, H., \& Alexandrescu, A. (2004). C++ Coding Standards: 101 Rules, Guidelines, and Best Practices. Addison-Wesley.
+    \item Josuttis, N. M. (2012). The C++ Standard Library: A Tutorial and Reference. Addison-Wesley.
+    \item Lippman, S. B., Lajoie, J., \& Moo, B. E. (2012). C++ Primer. Addison-Wesley.
+    \item Eckel, B. (2003). Thinking in C++. MindView LLC. Available at: \url{http://www.mindview.net/Books/TICPP/ThinkingInCPP2e.html}.
+\end{itemize}
+
+\end{document}
