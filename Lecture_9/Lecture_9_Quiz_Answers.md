@@ -70,10 +70,6 @@
 ---
 ## OpenMP
 
-### 10. OpenMP is ideal for writing distributed computing applications.
-- [ ] a). True  
-- [x] b). False
-
 #### What is the primary purpose of the `#pragma omp parallel` directive in OpenMP?
 - [ ] a). To define a serial region of code  
 - [x] b). To define a parallel region of code  
