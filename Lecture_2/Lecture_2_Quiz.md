@@ -54,7 +54,7 @@ cout << z;
 - [ ] c). There is no difference.
 - [ ] d). Both are syntax errors in C++.
 
-#### Which of the following is a valid C++ statement for declaring a double variable `d2` and initializing it to 2.5?
+#### Which of the following is a valid C++ statement for declaring a double variable `d2` and initialising it to 2.5?
 - [ ] a). `double 2.5 = d2;`
 - [x] b). `double d2 = 2.5;`
 - [ ] c). `d2 = double 2.5;`
@@ -292,7 +292,7 @@ cout << x;
 #### Which of the following is true about a namespace?
 
 - [x] a). It allows for the grouping of identifiers to avoid name conflicts.
-- [ ] b). It provides a way to organize code only in header files.
+- [ ] b). It provides a way to organise code only in header files.
 - [ ] c). It must be defined within a function.
 - [ ] d). It cannot be nested.
 

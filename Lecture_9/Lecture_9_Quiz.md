@@ -36,7 +36,7 @@
 #### What does Amdahl's Law state about parallel programs?
 - [ ] a). Parallel programs can achieve infinite speedup with enough processors  
 - [ ] b). Parallel programs have no limit to speedup  
-- [x] c). There is a strict limit on the speedup that can be realized using multiple processors  
+- [x] c). There is a strict limit on the speedup that can be realised using multiple processors  
 - [ ] d). Parallel programs are always faster than serial programs
 
 #### What is the formula for speedup according to Amdahl's Law?
@@ -45,7 +45,7 @@
 - [ ] c). S = (fs + fp * N) / 1  
 - [ ] d). S = (fs + fp / N) / 1
 
-#### What does the term "synchronization" refer to in parallel programming?
+#### What does the term "synchronisation" refer to in parallel programming?
 - [x] a). The temporal coordination of parallel tasks  
 - [ ] b). The spatial coordination of parallel tasks  
 - [ ] c). The isolation of parallel tasks  
@@ -86,7 +86,7 @@
 - [ ] c). Undefined  
 - [ ] d). Local to the master thread
 
-#### Which directive is used to parallelize a `for` loop in OpenMP?
+#### Which directive is used to parallelise a `for` loop in OpenMP?
 - [ ] a). `#pragma omp parallel`
 - [ ] b). `#pragma omp for`
 - [x] c). `#pragma omp parallel for`
@@ -124,7 +124,7 @@ for (int i = 0; i < 1000; i++) {
 - [ ] c). The loop will run in parallel, but there will be a race condition.
 - [ ] d). The loop will generate compilation errors.
 
-#### How does OpenMP distribute iterations in a parallelized for loop by default?
+#### How does OpenMP distribute iterations in a parallelised for loop by default?
 - [x] a). OpenMP divides the iterations evenly among the threads.
 - [ ] b). OpenMP lets the user manually assign iterations to each thread.
 - [ ] c). OpenMP uses a random distribution of iterations.
@@ -159,7 +159,7 @@ for (int i = 0; i < 1000; i++) {
 - [ ] a). To reduce the number of threads used by the program.
 - [x] b). To combine the results of a parallel computation into a single result after the parallel region.
 - [ ] c). To reduce the amount of memory used by the program.
-- [ ] d). To limit the amount of parallelization in a program.
+- [ ] d). To limit the amount of parallelisation in a program.
 
 #### Given the following code, what is the result after the loop?
 ```cpp
@@ -175,7 +175,7 @@ for (int i = 1; i <= 100; i++) {
 - [ ] c). The loop will execute sequentially because reductions do not work with parallelism.
 - [ ] d). The loop will generate compilation errors.
 
-#### Which of the following is a common pitfall when parallelizing code with OpenMP?
+#### Which of the following is a common pitfall when parallelising code with OpenMP?
 - [ ] a). Not using enough threads.
 - [x] b). Creating too many critical sections, which can reduce parallel efficiency.
 - [ ] c). Forgetting to include the omp.h header file.
@@ -188,7 +188,7 @@ for (int i = 1; i <= 100; i++) {
 - [ ] d). `omp_nested()`
 
 #### What is a benefit of using OpenMP over manual thread management in C++?
-- [x] a). OpenMP provides an easier interface for parallelizing loops and tasks.
+- [x] a). OpenMP provides an easier interface for parallelising loops and tasks.
 - [ ] b). OpenMP eliminates all performance overhead.
 - [ ] c). OpenMP can only be used for scientific computing.
 - [ ] d). OpenMP allows direct manipulation of individual threads.
@@ -218,7 +218,7 @@ for (int i = 1; i <= 100; i++) {
 - [ ] a). To manage memory allocation
 - [ ] b). To handle input/output operations
 - [x] c). To create and manage threads
-- [ ] d). To synchronize access to shared resources
+- [ ] d). To synchronise access to shared resources
 
 #### How do you ensure that a thread completes its execution before the main program continues?
 - [ ] a). Use `std::thread::detach()`

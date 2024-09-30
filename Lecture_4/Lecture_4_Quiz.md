@@ -135,7 +135,7 @@ int *b = &a;
 - [ ] a). 10
 - [x] b). 20
 - [ ] c). Null
-- [ ] d). Uninitialized
+- [ ] d). Uninitialised
 
 ### What does the following code do?
 ```cpp
@@ -160,7 +160,7 @@ int  c = &b;
 - [ ] c). `A[0]`
 - [x] d). `&A[0]`
 
-#### Which of the following correctly declares and initializes an array of 6 integers?
+#### Which of the following correctly declares and initialises an array of 6 integers?
 - [x] a). `int x[6] = {19, 10, 8, 17, 9, 15};`
 - [ ] b). `int x = {19, 10, 8, 17, 9, 15};`
 - [ ] c). `int x[6] = {19, 10, 8};`
@@ -275,10 +275,10 @@ delete[] P;
 int x[6] = {19, 10, 8};
 ```
 
-- [x] a). Declares an array of 6 integers and initializes the first 3 elements.
+- [x] a). Declares an array of 6 integers and initialises the first 3 elements.
 - [ ] b). Declares an array of 3 integers.
 - [ ] c). Causes a compilation error.
-- [ ] d). Declares and initializes an array of 6 integers to zero.
+- [ ] d). Declares and initialises an array of 6 integers to zero.
 
 #### How can a function return more than one value using pointers in C++?
 - [ ] a). By returning an array.
@@ -320,7 +320,7 @@ int x[6] = {19, 10, 8};
 - [ ] a). Pointers are automatically deallocated at the end of the program.
 - [x] b). Pointers can be used to access array elements.
 - [ ] c). Pointers cannot be incremented or decremented.
-- [ ] d). Pointers are always initialized to nullptr.
+- [ ] d). Pointers are always initialised to nullptr.
 
 #### What does the following code snippet print? 
 ```cpp
@@ -398,7 +398,7 @@ int *ptr = arr;
 int *ptr = new int;
 ```
 
-- [ ] a). Declares a pointer to an integer and initializes it to nullptr.
+- [ ] a). Declares a pointer to an integer and initialises it to nullptr.
 - [x] b). Declares a pointer to an integer and allocates memory for it.
 - [ ] c). Declares an integer and allocates memory for it.
 - [ ] d). Declares a pointer to an integer and assigns it the value 0.

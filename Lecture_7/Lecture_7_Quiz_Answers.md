@@ -74,7 +74,7 @@
 - [x] a). By passing a function object as the fourth argument.
 - [ ] b). By overloading the `+` operator.
 - [ ] c). By using the `sort` algorithm.
-- [ ] d). By passing the initializer as the first argument.
+- [ ] d). By passing the initialiser as the first argument.
 
 #### What does the `inner_product` algorithm compute?
 - [ ] a). The product of all elements in a sequence.
@@ -163,7 +163,7 @@
 #### What is the main reason to use STL algorithms instead of writing custom loops?
 - [ ] a). STL algorithms are more efficient.
 - [ ] b). STL algorithms are easier to read and maintain.
-- [ ] c). STL algorithms are optimized and well-tested.
+- [ ] c). STL algorithms are optimised and well-tested.
 - [x] d). All of the above.
 
 #### Which of the following is not an STL algorithm?
